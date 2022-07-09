@@ -62,7 +62,7 @@
 
                 <div class="col-sm-4">
                     <br> 
-                    <button  nbButton fullWidth hero outline status="primary"  (click)="scan()" [disabled]="(dechargementOnly || categorie.errors?.required)">Scan</button>
+                    <button  nbButton fullWidth hero outline status="primary"  (click)="scan()" [disabled]="categorie.errors?.required">Scan</button>
                 </div>
 
 
@@ -122,15 +122,15 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="danger" [disabled]="dechargementOnly" name="expertiseCh" [(ngModel)]="constat.expertiseCh">Expertise</nb-checkbox>
+                                    <nb-checkbox status="danger" name="expertiseCh" [(ngModel)]="constat.expertiseCh">Expertise</nb-checkbox>
                                 </div>
                                 <div class="col-sm-6">
-                                    <nb-checkbox status="danger" [disabled]="dechargementOnly" name="interchangeCh" [(ngModel)]="constat.interchangeCh">Interchange</nb-checkbox>
+                                    <nb-checkbox status="danger" name="interchangeCh" [(ngModel)]="constat.interchangeCh">Interchange</nb-checkbox>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPlomb"  class="label">Remarque</label>
-                                <textarea rows="3" [readonly]="dechargementOnly" nbInput fullWidth status="danger" placeholder="Remarque" name="RemarqueCh" [(ngModel)]="constat.remarqueChargement"></textarea>
+                                <textarea rows="3" nbInput fullWidth status="danger" placeholder="Remarque" name="RemarqueCh" [(ngModel)]="constat.remarqueChargement"></textarea>
                             </div>
 
 
@@ -171,8 +171,8 @@
                             <!--partie dommage -->
                             <div *ngIf="isSaved"> 
                             <div class="row">
-                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)" [disabled]="dechargementOnly">Ajouter dommage</button>
-                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()" [disabled]="dechargementOnly">Ajouter image</button> 
+                                     <button class="col-sm-4" nbButton hero outline status="info" (click)="openWindowDommage($event)">Ajouter dommage</button>
+                                     <button class="col-sm-4" nbButton hero outline status="warning" (click)="openWindowImage()">Ajouter image</button> 
                                      <button class="col-sm-4" nbButton hero outline  status="success" (click)="reloadTable($event)" ><nb-icon icon="repeat"></nb-icon></button>
                             </div>
                             <br>
