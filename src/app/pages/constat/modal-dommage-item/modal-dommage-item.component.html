@@ -14,7 +14,7 @@
 
                 <div class="form-group col-sm-6">
                     <label for="inputPosition" class="label">Position</label>
-                    <ng-select required placeholder="Position" name="Position" [(ngModel)]="dommageItem.position" >
+                    <ng-select placeholder="Position" name="Position" [(ngModel)]="dommageItem.position" >
                         <ng-option [value]="'D'">Droite</ng-option>
                         <ng-option [value]="'G'">Gauche</ng-option>
                     </ng-select>
@@ -73,7 +73,7 @@
 </nb-card-body>
 <nb-card-footer>
     <div style="text-align:right;">
-        <button nbButton hero status="success" type="submit"  (click)="onSave()" [disabled]=!monFormulairej.valid>{{A}}</button>
+        <button nbButton hero status="success" type="submit"  (click)="onSave()">{{A}}</button>
         <button nbButton hero status="warning" (click)="fermer();" style="margin-left: 30px;">Annuler</button>
     </div>
 </nb-card-footer>
