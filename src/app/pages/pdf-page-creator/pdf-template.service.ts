@@ -11,12 +11,14 @@ import { PagesComponent } from '../pages.component';
 export class PdfTemplateService {
 
   retrievedImage: any;
-  retrievedImageList = []
+  retrievedImageListCh = []
+  retrievedImageListDch = []
   retrievedImageName: any;
   base64Data: any;
   retrieveResonse: any;
   res: any;
-  resList: any
+  resListCh: any
+  resListDch: any
 
 
 
@@ -53,8 +55,18 @@ export class PdfTemplateService {
     }
   }
 
-  calculateSecondPageImage(constat: Constat, colorCh: string, colorDch: string, insCh : string , insDch: string, listImage) {
+  calculateSecondPageImage(constat: Constat, colorCh: string, colorDch: string, insCh : string , insDch: string, listImage, phase: string) {
     if (listImage.length > 6) {
+      let titeVisual
+      let titeVisualColor
+      if (phase == "chargement") {
+        titeVisual = "VISUEL CHAREMENT",
+        titeVisualColor = colorCh
+      }
+      if (phase == "dechargement") {
+        titeVisual = "VISUEL DECHAREMENT",
+        titeVisualColor = colorDch
+      }
       return [
         { text: '', pageBreak: 'before' },
         {
@@ -175,7 +187,7 @@ export class PdfTemplateService {
           ]
         },
         { text: '.................................................................................................................................................................', alignment: 'center', },
-        { text: 'VISUEL', alignment: 'center', bold: true, fontSize: 20 },
+        { text: titeVisual+" 2", alignment: 'center', bold: true, fontSize: 20 ,color: titeVisualColor },
         {
 
           style: 'tableExample',
@@ -186,14 +198,14 @@ export class PdfTemplateService {
               [
 
                 {
-                  image: this.prepareImage(6, this.retrievedImageList),
+                  image: this.prepareImage(6, listImage),
                   width: 250,
                   height: 150,
                   margin: [0, 20, 0, 0],
                 },
 
                 {
-                  image: this.prepareImage(7, this.retrievedImageList),
+                  image: this.prepareImage(7, listImage),
                   width: 250,
                   height: 150,
                   margin: [0, 20, 0, 0],
@@ -201,14 +213,14 @@ export class PdfTemplateService {
               ],
               [
                 {
-                  image: this.prepareImage(8, this.retrievedImageList),
+                  image: this.prepareImage(8, listImage),
                   width: 250,
                   height: 150,
                   margin: [0, 20, 0, 0],
                 },
 
                 {
-                  image: this.prepareImage(9, this.retrievedImageList),
+                  image: this.prepareImage(9, listImage),
                   width: 250,
                   height: 150,
                   margin: [0, 20, 0, 0],
@@ -216,14 +228,207 @@ export class PdfTemplateService {
               ],
               [
                 {
-                  image: this.prepareImage(10, this.retrievedImageList),
+                  image: this.prepareImage(10, listImage),
                   width: 250,
                   height: 150,
                   margin: [0, 20, 0, 0],
                 },
 
                 {
-                  image: this.prepareImage(11, this.retrievedImageList),
+                  image: this.prepareImage(11, listImage),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ]
+            ]
+          }
+        },
+      ]
+    }
+  }
+
+  calculateFirstPageImage(constat: Constat, colorCh: string, colorDch: string, insCh : string , insDch: string, listImage, phase: string) {
+    if (listImage.length > 0) {
+      let titeVisual
+      let titeVisualColor
+      if (phase == "chargement") {
+        titeVisual = "VISUEL CHAREMENT",
+        titeVisualColor = colorCh
+      }
+      if (phase == "dechargement") {
+        titeVisual = "VISUEL DECHAREMENT",
+        titeVisualColor = colorDch
+      }
+      return [
+        { text: '', pageBreak: 'before' },
+        {
+          alignment: 'center',
+          columns: [
+            {
+              width: '*',
+              alignment: "left",
+              margin: [-20, 0, 0, 0],
+              fontSize: 11,
+              color: '#1d44af',
+              bold: true,
+              text: 'general@esurveys.fr\nTEL: +33 (0) 495 069 230',
+            },
+            {
+              width: 140,
+              alignment: 'center',
+              margin: [-85, -20, 0, 0],
+              text: 'CONSTAT DE SURVEILLANCE',
+              style: 'title',
+            },
+            {
+              width: 150,
+              alignment: "right",
+              margin: [0, 0, -20, 0],
+              fontSize: 11,
+              color: '#1d44af',
+              bold: true,
+              text: 'www.esurveys.fr\nFAX: +33(0) 491 467 892'
+            },
+          ]
+        },
+        {
+          canvas: [
+            {
+              type: 'rect',
+              x: -1,
+              y: 15,
+              w: 518,
+              h: 70,
+              r: 5,
+              lineColor: 'black',
+              lineWidth: 2
+            },
+          ]
+        },
+
+        {
+          style: 'headTable',
+          layout: 'headerLineOnly',
+          absolutePosition: { x: 90, y: 88 },
+          table: {
+            widths: [70, "auto", "auto"],
+            body: [
+              [{ text: constat.voyage.bateau.intitule, alignment: 'center', margin: [-100, 17, 0, 0] },
+              {
+                table: {
+                  body: [
+                    [
+                      { text: 'Chargement', bold: true, color: colorCh, alignment: 'center' },
+                      { text: 'Dechargement', bold: true, color: colorDch, alignment: 'center' }],
+                    [{
+                      table: {
+                        body: [
+                          ['Port', 'Date'],
+                          [{ text: constat.voyage.portChargement.intitule, bold: true }, { text: new DatePipe('fr').transform(constat.dateChargement, 'dd/MM/yyyy'), bold: true }]
+                        ]
+                      },
+                      layout: 'noBorders',
+                    },
+                    {
+                      table: {
+                        body: [
+                          ['Port', 'Date'],
+                          [{ text: constat.voyage.portDechargement.intitule, bold: true }, { text: new DatePipe('fr').transform(constat.dateDechargement, 'dd/MM/yyyy'), bold: true }]
+                        ]
+                      },
+                      layout: 'headerLineOnly',
+                    }
+                    ],
+                  ],
+                },
+                margin: [-10, -5, 0, 0]
+              },
+              {
+                table: {
+                  widths: ['*', "*"],
+                  body: [
+                    [{ text: 'Inspecteur', bold: true, colSpan: 2 }, ''],
+                    [{ text: '1', bold: true, color: colorCh }, { text: insCh, bold: true, color: colorCh }],
+                    [{ text: '2', bold: true, color: colorDch }, { text: insDch, bold: true, color: colorDch },]
+
+                  ]
+                },
+                layout: 'headerLineOnly',
+              }]
+            ]
+          }
+        },
+        {
+          columns: [
+            {
+              width: '*',
+              text: ['ID : ', { text: constat.unite.matricule, bold: true },]
+            },
+            {
+              width: '*',
+              text: ['Plomb : ', { text: constat.plombCode, bold: true },]
+            },
+            {
+              width: '*',
+              text: ['Type : ', { text: constat.unite.type.intitule, bold: true, italics: true },]
+            },
+            {
+              width: '*',
+              text: ['Chargeur : ', { text: constat.chargeur.intitule, bold: true },]
+            }
+          ]
+        },
+        { text: '.................................................................................................................................................................', alignment: 'center', },
+        { text: titeVisual+" 1", alignment: 'center', bold: true, fontSize: 20 ,color: titeVisualColor },
+        {
+
+          style: 'tableExample',
+          table: {
+            heights: 190,
+            width: 250,
+            body: [
+              [
+
+                {
+                  image: this.prepareImage(0, listImage),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+
+                {
+                  image: this.prepareImage(1, listImage),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ],
+              [
+                {
+                  image: this.prepareImage(2, listImage),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+
+                {
+                  image: this.prepareImage(3, listImage),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+              ],
+              [
+                {
+                  image: this.prepareImage(4, listImage),
+                  width: 250,
+                  height: 150,
+                  margin: [0, 20, 0, 0],
+                },
+
+                {
+                  image: this.prepareImage(5, listImage),
                   width: 250,
                   height: 150,
                   margin: [0, 20, 0, 0],
@@ -248,15 +453,26 @@ export class PdfTemplateService {
       insDch = constat.inspecteurDechargement.nom.substring(0, 1).toUpperCase() + constat.inspecteurDechargement.prenom.substring(0, 1).toUpperCase()
     } else insDch = ""
 
-    //paroucourire images
-    this.resList = await this.constatService.getimages(constat.id);
-    this.resList.forEach(element => {
+    //paroucourire images chargement
+    this.resListCh = await this.constatService.getimagesByConstatAndPhase(constat.id , "chargement");
+    this.resListCh.forEach(element => {
       this.res = element
       this.retrieveResonse = this.res;
       this.retrievedImageName = this.res.name;
       this.base64Data = this.retrieveResonse.picByte;
       this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
-      this.retrievedImageList.push(this.retrievedImage)
+      this.retrievedImageListCh.push(this.retrievedImage)
+    });
+
+    //paroucourire images dechargement
+    this.resListDch = await this.constatService.getimagesByConstatAndPhase(constat.id , "dechargement");
+    this.resListDch.forEach(element => {
+      this.res = element
+      this.retrieveResonse = this.res;
+      this.retrievedImageName = this.res.name;
+      this.base64Data = this.retrieveResonse.picByte;
+      this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+      this.retrievedImageListDch.push(this.retrievedImage)
     });
 
 
@@ -571,190 +787,17 @@ export class PdfTemplateService {
 
           ],
         },
-
-
-
-        // deuxiemme page pour les images 
-        { text: '', pageBreak: 'before' },
-        {
-          alignment: 'center',
-          columns: [
-            {
-              width: '*',
-              alignment: "left",
-              margin: [-20, 0, 0, 0],
-              fontSize: 11,
-              color: '#1d44af',
-              bold: true,
-              text: 'general@esurveys.fr\nTEL: +33 (0) 495 069 230',
-            },
-            {
-              width: 140,
-              alignment: 'center',
-              margin: [-85, -20, 0, 0],
-              text: 'CONSTAT DE SURVEILLANCE',
-              style: 'title',
-            },
-            {
-              width: 150,
-              alignment: "right",
-              margin: [0, 0, -20, 0],
-              fontSize: 11,
-              color: '#1d44af',
-              bold: true,
-              text: 'www.esurveys.fr\nFAX: +33(0) 491 467 892'
-            },
-          ]
-        },
-        {
-          canvas: [
-            {
-              type: 'rect',
-              x: -1,
-              y: 15,
-              w: 518,
-              h: 70,
-              r: 5,
-              lineColor: 'black',
-              lineWidth: 2
-            },
-          ]
-        },
-
-        {
-          style: 'headTable',
-          layout: 'headerLineOnly',
-          absolutePosition: { x: 90, y: 88 },
-          table: {
-            widths: [70, "auto", "auto"],
-            body: [
-              [{ text: constat.voyage.bateau.intitule, alignment: 'center', margin: [-100, 17, 0, 0] },
-              {
-                table: {
-                  body: [
-                    [
-                      { text: 'Chargement', bold: true, color: colorCh, alignment: 'center' },
-                      { text: 'Dechargement', bold: true, color: colorDch, alignment: 'center' }],
-                    [{
-                      table: {
-                        body: [
-                          ['Port', 'Date'],
-                          [{ text: constat.voyage.portChargement.intitule, bold: true }, { text: new DatePipe('fr').transform(constat.dateChargement, 'dd/MM/yyyy'), bold: true }]
-                        ]
-                      },
-                      layout: 'noBorders',
-                    },
-                    {
-                      table: {
-                        body: [
-                          ['Port', 'Date'],
-                          [{ text: constat.voyage.portDechargement.intitule, bold: true }, { text: new DatePipe('fr').transform(constat.dateDechargement, 'dd/MM/yyyy'), bold: true }]
-                        ]
-                      },
-                      layout: 'headerLineOnly',
-                    }
-                    ],
-                  ],
-                },
-                margin: [-10, -5, 0, 0]
-              },
-              {
-                table: {
-                  widths: ['*', "*"],
-                  body: [
-                    [{ text: 'Inspecteur', bold: true, colSpan: 2 }, ''],
-                    [{ text: '1', bold: true, color: colorCh }, { text: insCh, bold: true, color: colorCh }],
-                    [{ text: '2', bold: true, color: colorDch }, { text: insDch, bold: true, color: colorDch },]
-
-                  ]
-                },
-                layout: 'headerLineOnly',
-              }]
-            ]
-          }
-        },
-        {
-          columns: [
-            {
-              width: '*',
-              text: ['ID : ', { text: constat.unite.matricule, bold: true },]
-            },
-            {
-              width: '*',
-              text: ['Plomb : ', { text: constat.plombCode, bold: true },]
-            },
-            {
-              width: '*',
-              text: ['Type : ', { text: constat.unite.type.intitule, bold: true, italics: true },]
-            },
-            {
-              width: '*',
-              text: ['Chargeur : ', { text: constat.chargeur.intitule, bold: true },]
-            }
-          ]
-        },
-        { text: '.................................................................................................................................................................', alignment: 'center', },
-        { text: 'VISUEL', alignment: 'center', bold: true, fontSize: 20 },
-        {		
-	        
-          style: 'tableExample',
-          table: {
-            heights: 190,
-            width: 250,
-            body: [
-              [
-
-                {
-                  image: this.prepareImage(0,this.retrievedImageList),
-                  width: 250,
-                  height: 150,
-                  margin: [0, 20, 0, 0],
-                },
-
-                {
-                  image: this.prepareImage(1,this.retrievedImageList),
-                  width: 250,
-                  height: 150,
-                  margin: [0, 20, 0, 0],
-                },
-              ],
-              [
-                {
-                  image: this.prepareImage(2,this.retrievedImageList),
-                  width: 250,
-                  height: 150,
-                  margin: [0, 20, 0, 0],
-                },
-
-                {
-                  image: this.prepareImage(3,this.retrievedImageList),
-                  width: 250,
-                  height: 150,
-                  margin: [0, 20, 0, 0],
-                },
-              ],
-              [
-                {
-                  image: this.prepareImage(4,this.retrievedImageList),
-                  width: 250,
-                  height: 150,
-                  margin: [0, 20, 0, 0],
-                },
-
-                {
-                  image: this.prepareImage(5,this.retrievedImageList),
-                  width: 250,
-                  height: 150,
-                  margin: [0, 20, 0, 0],
-                },
-              ]
-            ]
-          }
-        },
-        //prapare 2emme page pour image
-        this.calculateSecondPageImage(constat,colorCh,colorDch,insCh,insDch,this.retrievedImageList),
+        //prapare 1ere page pour image chargement
+        this.calculateFirstPageImage(constat,colorCh,colorDch,insCh,insDch,this.retrievedImageListCh, "chargement"),
+        //prapare 2emme page pour image chargement
+        this.calculateSecondPageImage(constat,colorCh,colorDch,insCh,insDch,this.retrievedImageListCh, "chargement"),
+        //prapare 1ere page pour image dechargement
+        this.calculateFirstPageImage(constat,colorCh,colorDch,insCh,insDch,this.retrievedImageListDch, "dechargement"),
+        //prapare 2emme page pour image dechargement
+        this.calculateSecondPageImage(constat,colorCh,colorDch,insCh,insDch,this.retrievedImageListDch, "dechargement"),
         //clean list
-         this.retrievedImageList = []
+        this.retrievedImageListCh = [],
+        this.retrievedImageListDch = []
       ],
 
 
