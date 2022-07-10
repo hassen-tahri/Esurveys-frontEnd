@@ -30,19 +30,15 @@ export class OneColumnLayoutComponent {
     private layoutService: LayoutService,
    ) {}
    
-   expandSidebar(): boolean {
+   expandSidebar() {
     this.sidebarService.expand('menu-sidebar');
     this.layoutService.changeLayoutSize();
-
-    return false;
   }
 
 
 
-  compactSidebar(): boolean {
+  compactSidebar() {
     this.sidebarService.collapse('menu-sidebar');
     this.layoutService.changeLayoutSize();
-
-    return false;
   }
 }
