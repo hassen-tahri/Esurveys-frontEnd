@@ -62,7 +62,7 @@
 
                 <div class="col-sm-4">
                     <br> 
-                    <button  nbButton fullWidth hero outline status="primary"  (click)="scan()" [disabled]="categorie.errors?.required">Scan</button>
+                    <button  nbButton fullWidth hero outline [status]="scanButtonStatus"  (click)="toggleScan()" [disabled]="categorie.errors?.required">{{scanButtonName}}</button>
                 </div>
 
 

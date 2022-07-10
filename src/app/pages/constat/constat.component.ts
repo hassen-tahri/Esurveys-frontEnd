@@ -105,6 +105,8 @@ export class ConstatComponent implements OnInit {
   dechargementOnly: boolean
   isScanned: boolean
   mail: Mail
+  scanButtonName: string;
+  scanButtonStatus : string;
 
 
 
@@ -176,6 +178,8 @@ export class ConstatComponent implements OnInit {
       });
 
     this.isScanned = false
+    this.scanButtonName="scan"
+    this.scanButtonStatus="primary"
     this.disabledTypeInput = false
     this.constat = new Constat()
     this.inspecteurCh = new Inspecteur()
@@ -410,6 +414,7 @@ export class ConstatComponent implements OnInit {
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
     localStorage.setItem("ccId", this.constat.id.toString())
+    if (this.isScanned) { this.toggleScan() }
     this.windowService.open(ModalImageComponent, { title: 'Ajouter' });
   }
 
@@ -476,7 +481,19 @@ export class ConstatComponent implements OnInit {
 
 
 
-  scan() { this.isScanned = true }
+  toggleScan() {
+    this.isScanned = !this.isScanned
+    if (this.isScanned) {
+      this.scanButtonStatus = "danger"
+      this.scanButtonName = "fermer"
+    }
+    else {
+      this.scanButtonStatus = "primary"
+      this.scanButtonName = "scan"
+    }
+  }
+
+
 
 
   handleImage(webcamImage: WebcamImage) {
