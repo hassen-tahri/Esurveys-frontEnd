@@ -1,4 +1,4 @@
-<nb-tabset>
+<nb-tabset (changeTab)="changeTab($event)">
     <nb-tab tabTitle="Parcourir une image">
         <div class="text-center">
             <input id="fileInput" type='file' (change)="onFileChanged($event)" nbInput accept="image/png, image/jpeg"

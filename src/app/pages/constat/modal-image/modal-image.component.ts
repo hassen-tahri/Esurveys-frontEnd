@@ -23,7 +23,7 @@ export class ModalImageComponent implements OnInit {
   public pictureTaken = new EventEmitter<WebcamImage>();
 
   // toggle webcam on/off
-  public showWebcam = true;
+  public showWebcam = false;
   public allowCameraSwitch = true;
   public multipleWebcamsAvailable = false;
   public deviceId: string;
@@ -172,5 +172,14 @@ async handleImage(webcamImage: WebcamImage) {
     this.retrievedImageName = this.res.name;
     this.base64Data = this.retrieveResonse.picByte;
     this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+  }
+
+  changeTab(selectedTab) {
+    if (selectedTab.tabTitle === 'Prendre une photo') {
+      this.showWebcam = true
+    }
+    if (selectedTab.tabTitle === 'Parcourir une image') {
+      this.showWebcam = false
+    }
   }
 }
