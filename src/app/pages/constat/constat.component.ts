@@ -143,7 +143,8 @@ export class ConstatComponent implements OnInit {
   selectedUnitetest: number;
 
   //img smart table
-  imgList ;
+  imgListCh ;
+  imgListDch
 
 
 
@@ -345,8 +346,8 @@ export class ConstatComponent implements OnInit {
     this.listDommageItemDeChargement = await this.dommageItemService.getByConstatIdAndPhase(this.constat.id, "dechargement")
     this.listDommageItemDeChargement.filter(p => p !== event.data)
 
-
-    this.imgList = await this.constatService.getimages(this.constat.id);
+    this.imgListCh = await this.constatService.getimagesByConstatAndPhase(this.constat.id, "chargement");
+    this.imgListDch = await this.constatService.getimagesByConstatAndPhase(this.constat.id, "dechargement");
 
 
   }
@@ -414,6 +415,7 @@ export class ConstatComponent implements OnInit {
     localStorage.removeItem('id');
     localStorage.setItem('e', '0');
     localStorage.setItem("ccId", this.constat.id.toString())
+    localStorage.setItem("phase",this.phase)
     if (this.isScanned) { this.toggleScan() }
     this.windowService.open(ModalImageComponent, { title: 'Ajouter' });
   }
@@ -624,10 +626,21 @@ export class ConstatComponent implements OnInit {
     },
   }
 
- async onDeleteConfirmImage(event) {
+ async onDeleteConfirmImageCh(event) {
     if (window.confirm(`Vous etes sure de supprimer cette image`)) {
       event.confirm.resolve(await this.constatService.deleteImage(event.data.name),
-        this.imgList.filter(p => p !== event.data),
+        this.imgListCh.filter(p => p !== event.data),
+        this.toastrService.warning("Succès", "Image supprimée")
+      );
+    } else {
+      event.confirm.reject();
+    }
+  }
+
+  async onDeleteConfirmImageDch(event) {
+    if (window.confirm(`Vous etes sure de supprimer cette image`)) {
+      event.confirm.resolve(await this.constatService.deleteImage(event.data.name),
+        this.imgListDch.filter(p => p !== event.data),
         this.toastrService.warning("Succès", "Image supprimée")
       );
     } else {

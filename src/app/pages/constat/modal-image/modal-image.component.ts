@@ -76,7 +76,9 @@ async handleImage(webcamImage: WebcamImage) {
     const file = this.dataURItoBlob(this.retrievedImage)
     const formData = new FormData();
     formData.append('imageFile', file,  this.calculateImageName()) 
-    this.constatService.uploadimage(+idC, formData);
+    let phase = localStorage.getItem("phase")
+    this.constatService.uploadimage(+idC, formData , phase);
+    localStorage.removeItem("phase")
      localStorage.removeItem("ccId")
     this.windowRef.close();
     this.toastrService.success("Succès", "Image enregistrée");
@@ -158,7 +160,9 @@ async handleImage(webcamImage: WebcamImage) {
     //FormData API provides methods and properties to allow us easily prepare form data to be sent with POST HTTP requests.
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
-    this.constatService.uploadimage(id, uploadImageData);
+    let phase = localStorage.getItem("phase")
+    this.constatService.uploadimage(id, uploadImageData , phase);
+    localStorage.removeItem("phase")
 
   }
 

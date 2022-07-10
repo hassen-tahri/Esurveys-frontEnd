@@ -72,8 +72,8 @@ export class ConstatService {
     return this.httpclient.delete(this.url + '/' + id).toPromise();
   }
 
-  uploadimage(id: number, uploadImageData: FormData) {
-    return this.httpclient.post(this.url + '/' + id + '/image/upload', uploadImageData, { observe: 'response' })
+  uploadimage(id: number, uploadImageData: FormData, phase : string) {
+    return this.httpclient.post(this.url + '/' + id +'/phase/' + phase + '/image/upload', uploadImageData, { observe: 'response' })
       .subscribe((response) => {
         if (response.status === 200) {
          // console.log('Image uploaded successfully');
@@ -105,5 +105,13 @@ export class ConstatService {
 
   async countByPhase(phase :string)
   {return this.httpclient.get(this.url + '/countByPhase/'+phase).toPromise();}
+
+  async getimagesByConstatAndPhase(id: number , phase:string) {
+    return this.httpclient.get(this.url + '/' + id + '/phase/'+ phase + '/image/getAllConstatPhase').toPromise();
+  }
+
+  async getimageByConstatAndPhase(id: number, phase:string) {
+    return this.httpclient.get(this.url + '/' + id + '/phase/'+ phase + '/image/getConstatPhase').toPromise();
+  }
   
 }
