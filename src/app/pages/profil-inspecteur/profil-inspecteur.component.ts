@@ -25,12 +25,19 @@ export class ProfilInspecteurComponent implements OnInit {
 
 
     async ngOnInit() {
-      let userId = localStorage.getItem(PagesComponent.userId)
-      this.inspecteur = new Inspecteur()
-      this.user = new User()
-      this.user = await this.userService.getById(+userId)
-      this.inspecteur = await this.inspecteurService.getByUserId(+userId)
-      this.oldPseudo = this.user.pseudo
+      let role = localStorage.getItem(PagesComponent.role)
+      if (role == PagesComponent.admin) {
+        this.router.navigate(['/pages/doNotAccess']);
+      }
+      else {
+        let userId = localStorage.getItem(PagesComponent.userId)
+        this.inspecteur = new Inspecteur()
+        this.user = new User()
+        this.user = await this.userService.getById(+userId)
+        this.inspecteur = await this.inspecteurService.getByUserId(+userId)
+        this.oldPseudo = this.user.pseudo
+      }
+
     }
   
     delay(ms: number) {

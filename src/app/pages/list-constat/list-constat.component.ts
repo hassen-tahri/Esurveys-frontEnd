@@ -103,10 +103,6 @@ export class ListConstatComponent implements OnInit {
     },
 
     columns: {
-      id: {
-        title: 'id',
-        type: 'text',
-      },
       unite: {
         title: 'Unite',
         type: 'text',

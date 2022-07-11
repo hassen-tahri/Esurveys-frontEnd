@@ -25,7 +25,7 @@
     
     <!-- <nb-action nbTooltip="This is a tooltip" nbTooltipPlacement="top" class="control-item" icon="bell-outline"></nb-action> -->
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
-      <nb-user [nbContextMenu]="userMenu"
+      <nb-user 
                [onlyPicture]="userPictureOnly"
                [name]="customUserName">
       </nb-user>

@@ -88,15 +88,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
   },
   {
-    title: 'image',
-    link: '/pages/image',
-    hidden : true
+    title: 'Profil',
+    icon: 'settings-2-outline',
+    link: '/pages/profilChargeur',
+    data: 'chargeur'
   },
   {
-    title: 'Tutoriel',
-    icon: 'monitor',
-    link: '/pages/tuto',
-    data: 'admin',
+    title: 'Profil',
+    icon: 'settings-2-outline',
+    link: '/pages/profilInspecteur',
+    data: 'admin'
   },
-
+  {
+    title: 'Déconnexion',
+    link: '/auth',
+    icon: 'power-outline'
+  },
 ];
