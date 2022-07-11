@@ -19,6 +19,7 @@ export class PdfTemplateService {
   res: any;
   resListCh: any
   resListDch: any
+  sizePlombFiled 
 
 
 
@@ -52,6 +53,24 @@ export class PdfTemplateService {
    prepareImage(i, listImage) {
     if (!!listImage[i]) { return listImage[i] }
     else { return  PagesComponent.blankImage
+    }
+  }
+
+  calculatePlombField(PlombText: string) {
+    let result = PlombText.length ? PlombText.trim().split('@') : []
+    if (result.length === 1) {
+      this.sizePlombFiled = "*"
+      return ['Plomb : ', { text: result, bold: true }]
+    }
+    if (result.length > 1) {
+      PlombText = PlombText.replace("@", ' | ')
+      PlombText = PlombText.replace("@", ' | ')
+      this.sizePlombFiled = 190
+      return ['Plomb : ', { text: PlombText, fontSize: 10 },]
+    }
+    if (result.length === 0) {
+      this.sizePlombFiled = "*"
+      return ['Plomb : ', { text: "", bold: true }]
     }
   }
 
@@ -173,8 +192,8 @@ export class PdfTemplateService {
               text: ['ID : ', { text: constat.unite.matricule, bold: true },]
             },
             {
-              width: '*',
-              text: ['Plomb : ', { text: constat.plombCode, bold: true },]
+              width: this.sizePlombFiled,
+              text: this.calculatePlombField(constat.plombCode)
             },
             {
               width: '*',
@@ -366,8 +385,8 @@ export class PdfTemplateService {
               text: ['ID : ', { text: constat.unite.matricule, bold: true },]
             },
             {
-              width: '*',
-              text: ['Plomb : ', { text: constat.plombCode, bold: true },]
+              width: this.sizePlombFiled,
+              text: this.calculatePlombField(constat.plombCode)
             },
             {
               width: '*',
@@ -653,8 +672,8 @@ export class PdfTemplateService {
               text: ['ID : ', { text: constat.unite.matricule, bold: true },]
             },
             {
-              width: '*',
-              text: ['Plomb : ', { text: constat.plombCode, bold: true },]
+              width: this.sizePlombFiled,
+              text: this.calculatePlombField(constat.plombCode)
             },
             {
               width: '*',
