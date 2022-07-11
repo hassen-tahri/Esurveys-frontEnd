@@ -88,10 +88,18 @@
             <div class="row">
 
                 <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="inputPlomb" class="label">Plomb</label>
-                        <input type="text" [readonly]="dechargementOnly" nbInput fullWidth id="Plomb" name="Plomb" placeholder="Plomb" [(ngModel)]="constat.plombCode" required>
-                    </div>
+                    <label for="plomb" class="label">Plomb</label>
+                    <nb-form-field>
+                        <input type="text" fullWidth [(ngModel)]="plombItemNgModel" nbInput [disabled]="listPlomb.length == 3">
+                        <button nbSuffix nbButton ghost  status="success" [disabled]="listPlomb.length == 3" (click)="addPlombItem()">
+                            <nb-icon icon="plus-outline">
+                            </nb-icon>
+                        </button>
+                    </nb-form-field>
+                    <ul>
+                        <li *ngFor="let plomb of listPlomb" (click)="deletePlombItem(plomb)">
+                            {{plomb}}
+                    </ul>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">

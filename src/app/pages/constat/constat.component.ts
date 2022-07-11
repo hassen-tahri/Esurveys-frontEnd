@@ -24,17 +24,14 @@ import { ShowDommageItemComponent } from './show-dommage-item/show-dommage-item.
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { PagePdfViewrComponent } from '../page-pdf-viewr/page-pdf-viewr.component';
-import { ModalScanComponent } from './modal-scan/modal-scan.component';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { GoogleCloudVisionService } from '../template-pdf/google-cloud-vision.service';
 import { Mail } from '../mailing/mail';
-import { Chargeur } from '../chargeur/chargeur';
 import { MailService } from '../mailing/mail.service';
 import { HttpClient } from '@angular/common/http';
 import { ClipboardService } from 'ngx-clipboard';
 import { ViewCell } from 'ng2-smart-table';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-ImageViewerInTable',
@@ -107,6 +104,8 @@ export class ConstatComponent implements OnInit {
   mail: Mail
   scanButtonName: string;
   scanButtonStatus : string;
+  listPlomb = []
+  plombItemNgModel : String
 
 
 
@@ -234,6 +233,7 @@ export class ConstatComponent implements OnInit {
       this.selectedUnite = this.constat.unite.id
       this.selectedType = this.constat.unite.type.id
       this.isSaved = true
+      this.listPlomb = this.calculatePlombValueList(this.constat.plombCode)
       this.calculateAttrBateauPort(event)
       if (this.constat.phase === "chargement") {
         this.inspecteurCh = this.constat.inspecteurChargement
@@ -283,6 +283,7 @@ export class ConstatComponent implements OnInit {
       this.constat.etat = "new"
       this.constat.phase = this.phase
       this.constat.dateCreation = new Date(Date.now()) 
+      this.constat.plombCode = this.calculatePlombValueText(this.listPlomb)
       this.calculateInspecteur()
       let uniteToInsert
       if (this.isNewType) {
@@ -313,6 +314,7 @@ export class ConstatComponent implements OnInit {
       {this.decalageDate(this.constat.dateChargement)}
       if(new Date(this.constat.dateDechargement).getDate() != new Date(this.voyage.dateDechargement).getDate())
       {this.decalageDate(this.constat.dateDechargement)}
+      this.constat.plombCode = this.calculatePlombValueText(this.listPlomb)
       await this.constatService.editConstat(this.constat, this.selectedVoyage, this.selectedChargeur, this.selectedUnite, this.inspecteurCh.id, this.inspecteurDCh.id)
       this.toastrService.success("Succès", "Dechargement enregistré");
     }
@@ -650,6 +652,31 @@ export class ConstatComponent implements OnInit {
 
   decalageDate(date: Date) {
     if (!!date) { date.setDate(date.getDate() + 1) }
+  }
+
+  addPlombItem() {
+    this.listPlomb.push(this.plombItemNgModel)
+    this.plombItemNgModel = new String()
+  }
+
+  deletePlombItem(text) {
+    const index = this.listPlomb.indexOf(text);
+    if (index >= 0) this.listPlomb.splice(index, 1);
+  }
+
+  calculatePlombValueText(listText) {
+    let result = ""
+    for (let index = 0; index < listText.length; index++) {
+      result = result + "@" + listText[index];
+    }
+    if (result != null) { result = result.substring(1) }
+    else { result = null }
+    return result
+  }
+
+  calculatePlombValueList(text) {
+    let result = text.length ? text.trim().split('@') : []
+    return result
   }
   
 

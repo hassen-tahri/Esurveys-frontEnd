@@ -47,3 +47,15 @@ nb-card-body {
   }
   
   .nb-shuffle { cursor: pointer; }
+
+        li {
+          display: inline;
+        }
+    
+        ul {
+          overflow: hidden
+        }
+    
+        li:hover {
+          cursor: grab;
+        }
