@@ -97,7 +97,7 @@
                         </button>
                     </nb-form-field>
                     <ul>
-                        <li *ngFor="let plomb of listPlomb" (click)="deletePlombItem(plomb)">
+                        <li *ngFor="let plomb of listPlomb" (click)="deletePlombItem(plomb)"><nb-icon icon="trash-2-outline" [options]="{ animation: { type: 'zoom' } }" status="danger"></nb-icon>
                             {{plomb}}
                     </ul>
                 </div>
