@@ -91,7 +91,7 @@
                     <label for="plomb" class="label">Plomb</label>
                     <nb-form-field>
                         <input type="text" fullWidth [(ngModel)]="plombItemNgModel" nbInput [disabled]="listPlomb.length == 3">
-                        <button nbSuffix nbButton ghost  status="success" [disabled]="listPlomb.length == 3" (click)="addPlombItem()">
+                        <button nbSuffix nbButton ghost  status="success" [disabled]="listPlomb.length == 3 || plombItemNgModel == '' || plombItemNgModel == null" (click)="addPlombItem()">
                             <nb-icon icon="plus-outline">
                             </nb-icon>
                         </button>
